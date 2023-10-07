@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "388819198297",
+    "firebase_url": "https://gridfence-cf1f5-default-rtdb.firebaseio.com",
+    "project_id": "gridfence-cf1f5",
+    "storage_bucket": "gridfence-cf1f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388819198297:android:c847c0cc27d81318fdec48",
+        "android_client_info": {
+          "package_name": "mariomitro.gridFence"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRaP7TmRpw6s_XC_eUjj2vvsMnTTMdrBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
