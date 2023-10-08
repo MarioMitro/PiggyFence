@@ -1,9 +1,14 @@
-using Firebase.Database;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiggyFence
+using PiggyFence.Fence;
+
+using Firebase.Database;
+
+using System.Collections;
+using System.Collections.Generic;
+
+
+namespace PiggyFence.Managers
 {
     public class DatabaseManager : Singleton<DatabaseManager>
     {
@@ -16,6 +21,12 @@ namespace PiggyFence
             dbReference = FirebaseDatabase.DefaultInstance.RootReference;
             //SaveData();
             LoadData();
+        }
+
+        private void OnDestroy()
+        {
+            fenceInfo = null;
+            dbReference = null;
         }
 
         private void LoadData()

@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiggyFence
+using System.Collections.Generic;
+
+namespace PiggyFence.Fence
 {
     [CreateAssetMenu(fileName = "FenceInfo", menuName = "FenceInfo")]
     public class FenceInfo : ScriptableObject
@@ -31,19 +31,19 @@ namespace PiggyFence
             {
                 if (cell.y == gridCell.y)
                 {
-                    if (cell.x >= gridCell.x && !right)
+                    if (!right && cell.x >= gridCell.x)
                         right = true;
 
-                    if (cell.x <= gridCell.x && !left)
+                    if (!left && cell.x <= gridCell.x)
                         left = true;
                 }
 
                 if (cell.x == gridCell.x)
                 {
-                    if (cell.y >= gridCell.y && !up)
+                    if (!up && cell.y >= gridCell.y)
                         up = true;
 
-                    if (cell.y <= gridCell.y && !down)
+                    if (!down && cell.y <= gridCell.y)
                         down = true;
                 }
             }

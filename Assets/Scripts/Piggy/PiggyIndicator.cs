@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiggyFence
+using PiggyFence.Managers;
+
+namespace PiggyFence.Piggy
 {
     public class PiggyIndicator : MonoBehaviour
     {

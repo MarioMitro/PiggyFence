@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc699003db40ad24e963b9855b29c9e1, type: 3}
   m_Name: PiggyInfo
   m_EditorClassIdentifier: 
-  piggyPrefab: {fileID: 6842847238085089562, guid: deeec4e7adfc2f74eabc366026c26feb, type: 3}
-  piggyInMaterial: {fileID: 2100000, guid: d17846e81f802c74f84c80c71545e776, type: 2}
+  piggyPrefab: {fileID: 1055064919166404, guid: de6abd774f85e18408346a3233418242, type: 3}
+  piggyInMaterial: {fileID: 2100000, guid: b83d3bf75db8f704fb67e55cf64a537f, type: 2}
   piggyOutMaterial: {fileID: 2100000, guid: 1d57fd2c07d87c8448d2bc0609541ee8, type: 2}

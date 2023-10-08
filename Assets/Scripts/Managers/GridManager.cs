@@ -1,8 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiggyFence
+using PiggyFence.Fence;
+
+using System.Collections.Generic;
+
+
+namespace PiggyFence.Managers
 {
     public class GridManager : Singleton<GridManager>
     {
@@ -20,15 +23,9 @@ namespace PiggyFence
             gridSizePerSide = (int)ground.transform.localScale.x;
 
             ground.transform.position = new Vector3(gridSizePerSide / 2f, -1, gridSizePerSide / 2f);
-            Camera.main.transform.position += Vector3.right * gridSizePerSide / 2;
 
             CreateGrid();
             BuildFence();
-        }
-
-        private void Update()
-        {
-
         }
 
         private void OnDestroy()

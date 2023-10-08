@@ -1,7 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace PiggyFence
+using System.Collections.Generic;
+
+namespace PiggyFence.Fence
 {
     public class FenceData
     {
