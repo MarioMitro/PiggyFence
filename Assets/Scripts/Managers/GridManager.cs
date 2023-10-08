@@ -78,6 +78,8 @@ namespace PiggyFence.Managers
                 var fP = Instantiate(fenceInfo.fencePiecePrefab, c.position, Quaternion.identity, c);
                 fence.Add(cell, fP.transform);
             }
+
+            fenceInfo.AlignFence(fence);
         }
 
         private void OnDrawGizmosSelected() // Cell bounds visualizer
