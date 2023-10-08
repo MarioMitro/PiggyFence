@@ -7,9 +7,11 @@ namespace PiggyFence
     public class GridManager : Singleton<GridManager>
     {
         [SerializeField] private GameObject ground;
+        [SerializeField] private FenceInfo fenceInfo;
 
         private int gridSizePerSide;
         private Dictionary<Vector2Int, Transform> grid;
+        public Dictionary<Vector2Int, Transform> fence;
 
 
         private void Start()
@@ -21,6 +23,7 @@ namespace PiggyFence
             Camera.main.transform.position += Vector3.right * gridSizePerSide / 2;
 
             CreateGrid();
+            BuildFence();
         }
 
         private void Update()
@@ -34,6 +37,11 @@ namespace PiggyFence
 
             grid.Clear();
             grid = null;
+
+            fence.Clear();
+            fence = null;
+
+            fenceInfo = null;
         }
 
         private void CreateGrid()
@@ -48,6 +56,18 @@ namespace PiggyFence
 
                     grid.Add(new Vector2Int(x, z), newCellTrans);
                 }
+            }
+        }
+
+        private void BuildFence()
+        {
+            fence = new Dictionary<Vector2Int, Transform>();
+
+            foreach (var cell in fenceInfo.fenceCellCoordinates)
+            {
+                Transform c = grid[cell];
+                var fP = Instantiate(fenceInfo.fencePiecePrefab, c.position, Quaternion.identity, c);
+                fence.Add(cell, fP.transform);
             }
         }
 

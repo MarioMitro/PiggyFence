@@ -7,20 +7,23 @@ namespace PiggyFence
 {
     public class DatabaseManager : Singleton<DatabaseManager>
     {
+        [SerializeField] private FenceInfo fenceInfo;
+
         private DatabaseReference dbReference;
 
         void Awake()
         {
             dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+            //SaveData();
             LoadData();
         }
 
-        public void LoadData()
+        private void LoadData()
         {
             StartCoroutine(LoadDataAsync());
         }
 
-        public void SaveData()
+        private void SaveData()
         {
             FenceData fence = new FenceData(new List<Vector2Int> { new Vector2Int(5,5), new Vector2Int(5, 11), new Vector2Int(5,12), new Vector2Int(6,4), new Vector2Int(6,6), new Vector2Int(6,10), new Vector2Int(6, 13),
                                          new Vector2Int(7,4), new Vector2Int(7, 7), new Vector2Int(7,8), new Vector2Int(7,9), new Vector2Int(7, 13), new Vector2Int(8,4), new Vector2Int(8, 13),
@@ -41,8 +44,7 @@ namespace PiggyFence
             if (data != null)
             {
                 DataSnapshot snapShot = data.Result;
-                //GridManager.instance.fence = JsonUtility.FromJson<FenceData>(snapShot.GetRawJsonValue()).cells;
-               // GridManager.instance.BuildFence();
+                fenceInfo.fenceCellCoordinates = JsonUtility.FromJson<FenceData>(snapShot.GetRawJsonValue()).cells;
             }
         }
     }
