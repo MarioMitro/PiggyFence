@@ -4,17 +4,20 @@ using PiggyFence.Managers;
 
 namespace PiggyFence.Piggy
 {
+    // Class is responsible for tracking mouse movement and projecting it on the ground.
     public class PiggyIndicator : MonoBehaviour
     {
         [SerializeField] private PiggyInfo piggyInfo;
+        [Space]
         [SerializeField] private Camera piggyCamera;
+        [Space]
         [SerializeField] private LayerMask groundMask;
 
-        private Vector3 lastPiggyPosition;
         private GameObject piggy;
         private MeshRenderer piggyMeshRenderer;
-
         private GridManager gridManager;
+
+        private Vector3 lastPiggyPosition;
 
         private void Awake()
         {
@@ -44,15 +47,15 @@ namespace PiggyFence.Piggy
                 {
                     var newPosition = gridManager.GetMousePosition(hit.point);
 
-                    if (newPosition == Vector3.one)
+                    if (newPosition == Vector3.one)                      // if mouse is outside the ground move piggy to last known position
                         piggy.transform.position = lastPiggyPosition;
-                    else if (newPosition != lastPiggyPosition)
+                    else if (newPosition != lastPiggyPosition)           // if mouse is on new position on the ground
                     {
                         lastPiggyPosition = newPosition;
                         piggy.transform.position = gridManager.GetMousePosition(hit.point) - Vector3.up * 0.5f;
-                    }
 
-                    piggyMeshRenderer.sharedMaterial = gridManager.IsCellInTheFence(hit.point) ? piggyInfo.piggyInMaterial : piggyInfo.piggyOutMaterial;
+                        piggyMeshRenderer.sharedMaterial = gridManager.IsCellInTheFence(hit.point) ? piggyInfo.piggyInMaterial : piggyInfo.piggyOutMaterial;
+                    }
                 }
             }
         }

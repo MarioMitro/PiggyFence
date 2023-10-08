@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 namespace PiggyFence.Managers
 {
+    // Class is responsible for retrieving data from Firestore DB
     public class DatabaseManager : Singleton<DatabaseManager>
     {
         [SerializeField] private FenceInfo fenceInfo;

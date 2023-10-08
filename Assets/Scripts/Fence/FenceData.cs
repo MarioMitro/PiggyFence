@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace PiggyFence.Fence
 {
+    // Class for Firestore data storing/loading.
     public class FenceData
     {
         public List<Vector2Int> cells;

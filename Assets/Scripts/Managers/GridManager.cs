@@ -7,22 +7,24 @@ using System.Collections.Generic;
 
 namespace PiggyFence.Managers
 {
+    // Class is responsible for creating grid, generating objects on it and providing information about objects on the grid such as their position on the grid.
     public class GridManager : Singleton<GridManager>
     {
-        [SerializeField] private GameObject ground;
+        [SerializeField] private GameObject groundPrefab;
+        [Space]
         [SerializeField] private FenceInfo fenceInfo;
 
-        private int gridSizePerSide;
         private Dictionary<Vector2Int, Transform> grid;
         public Dictionary<Vector2Int, Transform> fence;
 
+        private int gridSizePerSide;
 
         private void Start()
         {
             grid = new Dictionary<Vector2Int, Transform>(gridSizePerSide * gridSizePerSide);
-            gridSizePerSide = (int)ground.transform.localScale.x;
+            gridSizePerSide = (int)groundPrefab.transform.localScale.x;
 
-            ground.transform.position = new Vector3(gridSizePerSide / 2f, -1, gridSizePerSide / 2f);
+            groundPrefab.transform.position = new Vector3(gridSizePerSide / 2f, -1, gridSizePerSide / 2f);
 
             CreateGrid();
             BuildFence();
@@ -30,7 +32,7 @@ namespace PiggyFence.Managers
 
         private void OnDestroy()
         {
-            ground = null;
+            groundPrefab = null;
 
             grid.Clear();
             grid = null;
@@ -74,16 +76,22 @@ namespace PiggyFence.Managers
 
             foreach (var cell in fenceInfo.fenceCellCoordinates)
             {
-                var griddCell = grid[cell];
-                var fencePiece = Instantiate(fenceInfo.fencePiecePrefab, griddCell.position, Quaternion.identity, griddCell);
-                fence.Add(cell, fencePiece.transform);
-                fencePiece.GetComponentInChildren<MeshRenderer>().material = fenceInfo.GetFenceMaterial();
+                if (grid.ContainsKey(cell))
+                {
+                    var griddCell = grid[cell];
+                    var fencePiece = Instantiate(fenceInfo.fencePiecePrefab, griddCell.position, Quaternion.identity, griddCell);
+                    fence.Add(cell, fencePiece.transform);
+
+                    fencePiece.GetComponentInChildren<MeshRenderer>().material = fenceInfo.GetFenceMaterial();
+                }
+                else
+                    Debug.LogError($"Grid does not contain cell with coordinates X:{cell.x} Y:{cell.y}");
             }
 
             fenceInfo.AlignFence(fence);
         }
 
-        private void OnDrawGizmosSelected() // Cell bounds visualizer
+        private void OnDrawGizmosSelected() // Grid visualizer
         {
             if (grid == null)
                 return;

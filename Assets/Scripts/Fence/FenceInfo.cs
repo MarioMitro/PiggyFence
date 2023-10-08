@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace PiggyFence.Fence
 {
+    // Class for storing data about fence material and change of getting it.
     [Serializable]
     public class FenceStyle
     {
@@ -19,11 +20,13 @@ namespace PiggyFence.Fence
         }
     }
 
+
     [CreateAssetMenu(fileName = "FenceInfo", menuName = "FenceInfo")]
     public class FenceInfo : ScriptableObject
     {
         public GameObject fencePiecePrefab;
-        public FenceStyle[] fenceColorPalet;
+        [Space]
+        public FenceStyle[] fenceMaterialsPalet;
         public List<Vector2Int> fenceCellCoordinates { get; set; }
 
         private void Awake()
@@ -37,6 +40,8 @@ namespace PiggyFence.Fence
 
             fenceCellCoordinates.Clear();
             fenceCellCoordinates = null;
+
+            fenceMaterialsPalet = null;
         }
 
         public bool IsCellInTheFence(Vector2Int gridCell)
@@ -79,13 +84,13 @@ namespace PiggyFence.Fence
         {
             var chance = UnityEngine.Random.value;
 
-            for (int i = fenceColorPalet.Length - 1; i >= 0; i--)
+            for (int i = fenceMaterialsPalet.Length - 1; i >= 0; i--)
             {
-                if (chance > fenceColorPalet[i].chance)
-                    return fenceColorPalet[i].fenceMaterial;
+                if (chance > fenceMaterialsPalet[i].chance)
+                    return fenceMaterialsPalet[i].fenceMaterial;
             }
 
-            return fenceColorPalet[0].fenceMaterial;
+            return fenceMaterialsPalet[0].fenceMaterial;
         }
 
         /// <summary>
