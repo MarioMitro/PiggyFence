@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PiggyFence
 {
-    public class GridManager : MonoBehaviour
+    public class GridManager : Singleton<GridManager>
     {
         [SerializeField] private GameObject ground;
 
