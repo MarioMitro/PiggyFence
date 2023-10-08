@@ -1,13 +1,29 @@
+using System;
+
 using UnityEngine;
 
 using System.Collections.Generic;
 
 namespace PiggyFence.Fence
 {
+    [Serializable]
+    public class FenceStyle
+    {
+        public float chance;
+        public Material fenceMaterial;
+
+        public FenceStyle(float chance, Material fenceMaterial)
+        {
+            this.chance = chance;
+            this.fenceMaterial = fenceMaterial;
+        }
+    }
+
     [CreateAssetMenu(fileName = "FenceInfo", menuName = "FenceInfo")]
     public class FenceInfo : ScriptableObject
     {
         public GameObject fencePiecePrefab;
+        public FenceStyle[] fenceColorPalet;
         public List<Vector2Int> fenceCellCoordinates { get; set; }
 
         private void Awake()
@@ -57,6 +73,19 @@ namespace PiggyFence.Fence
             ConnectShortenedEnds(fence);
             RotateInclinedPieces(fence);
             ConnectHardEdges(fence);
+        }
+
+        public Material GetFenceMaterial()
+        {
+            var chance = UnityEngine.Random.value;
+
+            for (int i = fenceColorPalet.Length - 1; i >= 0; i--)
+            {
+                if (chance > fenceColorPalet[i].chance)
+                    return fenceColorPalet[i].fenceMaterial;
+            }
+
+            return fenceColorPalet[0].fenceMaterial;
         }
 
         /// <summary>

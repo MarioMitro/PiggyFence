@@ -74,9 +74,10 @@ namespace PiggyFence.Managers
 
             foreach (var cell in fenceInfo.fenceCellCoordinates)
             {
-                Transform c = grid[cell];
-                var fP = Instantiate(fenceInfo.fencePiecePrefab, c.position, Quaternion.identity, c);
-                fence.Add(cell, fP.transform);
+                var griddCell = grid[cell];
+                var fencePiece = Instantiate(fenceInfo.fencePiecePrefab, griddCell.position, Quaternion.identity, griddCell);
+                fence.Add(cell, fencePiece.transform);
+                fencePiece.GetComponentInChildren<MeshRenderer>().material = fenceInfo.GetFenceMaterial();
             }
 
             fenceInfo.AlignFence(fence);

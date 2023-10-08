@@ -6,7 +6,7 @@ namespace PiggyFence.Piggy
     public class PiggyInfo : ScriptableObject
     {
         public GameObject piggyPrefab;
-
+        [Space]
         public Material piggyInMaterial;
         public Material piggyOutMaterial;
 
