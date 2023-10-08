@@ -1,9 +1,9 @@
 using UnityEngine;
 
+using PiggyFence.UI;
 using PiggyFence.Fence;
 
 using System.Collections.Generic;
-
 
 namespace PiggyFence.Managers
 {
@@ -13,6 +13,8 @@ namespace PiggyFence.Managers
         [SerializeField] private GameObject groundPrefab;
         [Space]
         [SerializeField] private FenceInfo fenceInfo;
+        [Space]
+        [SerializeField] private UIData uiData;
 
         private Dictionary<Vector2Int, Transform> grid;
         public Dictionary<Vector2Int, Transform> fence;
@@ -21,8 +23,9 @@ namespace PiggyFence.Managers
 
         private void Start()
         {
-            grid = new Dictionary<Vector2Int, Transform>(gridSizePerSide * gridSizePerSide);
             gridSizePerSide = (int)groundPrefab.transform.localScale.x;
+            uiData.gridSize = gridSizePerSide;
+            grid = new Dictionary<Vector2Int, Transform>(gridSizePerSide * gridSizePerSide);
 
             groundPrefab.transform.position = new Vector3(gridSizePerSide / 2f, -1, gridSizePerSide / 2f);
 
@@ -89,6 +92,7 @@ namespace PiggyFence.Managers
             }
 
             fenceInfo.AlignFence(fence);
+            uiData.fenceLength = fenceInfo.GetFenceLength(fence);
         }
 
         private void OnDrawGizmosSelected() // Grid visualizer

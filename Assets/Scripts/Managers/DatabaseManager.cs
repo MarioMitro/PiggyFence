@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using PiggyFence.UI;
 using PiggyFence.Fence;
 
 using Firebase.Database;
@@ -7,13 +8,14 @@ using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
 
-
 namespace PiggyFence.Managers
 {
     // Class is responsible for retrieving data from Firestore DB
     public class DatabaseManager : Singleton<DatabaseManager>
     {
         [SerializeField] private FenceInfo fenceInfo;
+        [Space]
+        [SerializeField] private UIData uiData;
 
         private DatabaseReference dbReference;
 
@@ -56,7 +58,10 @@ namespace PiggyFence.Managers
             if (data != null)
             {
                 DataSnapshot snapShot = data.Result;
+                uiData.dbDataLoadingTime = System.DateTime.Now;
+
                 fenceInfo.fenceCellCoordinates = JsonUtility.FromJson<FenceData>(snapShot.GetRawJsonValue()).cells;
+                uiData.fencePieceCount = fenceInfo.fenceCellCoordinates.Count;
             }
         }
     }

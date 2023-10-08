@@ -93,6 +93,16 @@ namespace PiggyFence.Fence
             return fenceMaterialsPalet[0].fenceMaterial;
         }
 
+        public float GetFenceLength(Dictionary<Vector2Int, Transform> fence)
+        {
+            float result = 0f;
+
+            foreach (var fenceP in fence.Keys)
+                result += fence[fenceP].localScale.x;
+
+            return result;
+        }
+
         /// <summary>
         /// All fence piecies are rotated horizontaly, firstly we find and rotate piecies that are supose to be verticaly.
         /// Then we shorten all horizontal or vertical end pieces to make incline piecies fit better 
