@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 516f1f0ed429a524fb1550cd08330087, type: 3}
-  m_Name: FenceInfo
+  m_Script: {fileID: 11500000, guid: dc699003db40ad24e963b9855b29c9e1, type: 3}
+  m_Name: PiggyInfo
   m_EditorClassIdentifier: 
-  fencePiecePrefab: {fileID: 1206893746925180298, guid: 8f5d1766a85327d45bf52ba74e4b62f8, type: 3}
+  piggy: {fileID: 0}

@@ -44,6 +44,18 @@ namespace PiggyFence
             fenceInfo = null;
         }
 
+        public Vector3 GetMousePosition(Vector3 mousePosition)
+        {
+            var gridCell = new Vector2Int((int)mousePosition.x, (int)mousePosition.z);
+
+            if (grid.ContainsKey(gridCell))
+                return grid[gridCell].position;
+
+            return Vector3.one;
+        }
+
+        public bool IsCellInTheFence(Vector3 mousePosition) => fenceInfo.IsCellInTheFence(new Vector2Int((int)mousePosition.x, (int)mousePosition.z));
+
         private void CreateGrid()
         {
             for (int x = 0; x < gridSizePerSide; x++) // Create a grid of cells
