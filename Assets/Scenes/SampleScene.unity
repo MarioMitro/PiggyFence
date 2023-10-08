@@ -1142,7 +1142,7 @@ MonoBehaviour:
     m_Left: 5
     m_Right: 5
     m_Top: 5
-    m_Bottom: 5
+    m_Bottom: 10
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -1741,7 +1741,7 @@ MonoBehaviour:
   fencePanel: {fileID: 657388484}
   firebasePanel: {fileID: 2095194511}
   uiButton: {fileID: 420955898}
-  uiInfo: {fileID: 11400000, guid: 7457dcb8034d6d14080f2ef619cf2a14, type: 2}
+  uiData: {fileID: 11400000, guid: 7457dcb8034d6d14080f2ef619cf2a14, type: 2}
   gridText: {fileID: 1252872441}
   fenceText: {fileID: 570227279}
   firebaseText: {fileID: 1311748007}

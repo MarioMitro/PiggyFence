@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
+
+using PiggyFence.UI;
+
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using PiggyFence.UI;
 
 namespace PiggyFence.Managers
 {
+    // Class controls UI elements in project such as info panels and button. Class uses information from uiData to fill important information.
     public class UIManager : Singleton<UIManager>
     {
         private const string HIDE_DEBUG_TEXT = "Hide Debug Info";
@@ -21,7 +22,7 @@ namespace PiggyFence.Managers
         [SerializeField] private Button uiButton;
         [Space]
         [Header("UIData")]
-        [SerializeField] private UIData uiInfo;
+        [SerializeField] private UIData uiData;
         [Space]
         [Header("Text Fields")]
         [SerializeField] private TMP_Text gridText;
@@ -36,6 +37,11 @@ namespace PiggyFence.Managers
             uiButton.onClick.AddListener(ShowHidePanels);
             uiButton.onClick.AddListener(ChangeButtonText);
             uiButton.onClick.AddListener(ShowData);
+        }
+
+        private void OnDestroy()
+        {
+            uiData = null;
         }
 
         private void ShowHidePanels()
@@ -56,9 +62,9 @@ namespace PiggyFence.Managers
         {
             if (showPanels)
             {
-                gridText.text = $"{uiInfo.gridSize} x {uiInfo.gridSize}";
-                fenceText.text = $"{uiInfo.fenceLength}m ({uiInfo.fencePieceCount} piecies)";
-                firebaseText.text = $"{uiInfo.dbDataLoadingTime.ToString("HH:mm:ss.f")}";
+                gridText.text = $"{uiData.gridSize} x {uiData.gridSize}";
+                fenceText.text = $"{uiData.fenceLength}m ({uiData.fencePieceCount} piecies)";
+                firebaseText.text = $"{uiData.dbDataLoadingTime.ToString("HH:mm:ss.f")}";
             }
         }
     }
