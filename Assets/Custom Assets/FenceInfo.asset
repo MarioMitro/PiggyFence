@@ -13,3 +13,10 @@ MonoBehaviour:
   m_Name: FenceInfo
   m_EditorClassIdentifier: 
   fencePiecePrefab: {fileID: 720191475751910503, guid: bf86dad92e3b3754198f420d57b5b700, type: 3}
+  fenceColorPalet:
+  - chance: 0.15
+    fenceMaterial: {fileID: 2100000, guid: 6c7da534adf849442ab00c554ac221d1, type: 2}
+  - chance: 0.25
+    fenceMaterial: {fileID: 2100000, guid: 1fc121be3f680634fbb8cab1fa2d47c8, type: 2}
+  - chance: 0.5
+    fenceMaterial: {fileID: 2100000, guid: ec2b0ecd91bd412439a8bab0d5f8a62d, type: 2}
