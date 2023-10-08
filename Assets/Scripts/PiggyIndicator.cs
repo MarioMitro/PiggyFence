@@ -14,11 +14,24 @@ namespace PiggyFence
         private GameObject piggy;
         private MeshRenderer piggyMeshRenderer;
 
+        private GridManager gridManager;
+
         private void Awake()
         {
             lastPiggyPosition = Vector3.zero;
             piggy = Instantiate(piggyInfo.piggyPrefab, transform);
             piggyMeshRenderer = piggy.GetComponent<MeshRenderer>();
+
+            gridManager = GridManager.instance;
+        }
+
+        private void OnDestroy()
+        {
+            gridManager = null;
+            piggy = null;
+            piggyMeshRenderer = null;
+            piggyInfo = null;
+            piggyCamera = null;
         }
 
         private void Update()
@@ -29,17 +42,17 @@ namespace PiggyFence
             {
                 if (hit.point != null)
                 {
-                    var newPosition = GridManager.instance.GetMousePosition(hit.point);
+                    var newPosition = gridManager.GetMousePosition(hit.point);
 
                     if (newPosition == Vector3.one)
                         piggy.transform.position = lastPiggyPosition;
                     else if (newPosition != lastPiggyPosition)
                     {
                         lastPiggyPosition = newPosition;
-                        piggy.transform.position = GridManager.instance.GetMousePosition(hit.point);
+                        piggy.transform.position = gridManager.GetMousePosition(hit.point) - Vector3.up * 0.5f;
                     }
 
-                    piggyMeshRenderer.sharedMaterial = GridManager.instance.IsCellInTheFence(hit.point) ? piggyInfo.piggyInMaterial : piggyInfo.piggyOutMaterial;
+                    piggyMeshRenderer.sharedMaterial = gridManager.IsCellInTheFence(hit.point) ? piggyInfo.piggyInMaterial : piggyInfo.piggyOutMaterial;
                 }
             }
         }
