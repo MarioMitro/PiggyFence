@@ -59,6 +59,10 @@ namespace PiggyFence.Fence
             ConnectHardEdges(fence);
         }
 
+        /// <summary>
+        /// All fence piecies are rotated horizontaly, firstly we find and rotate piecies that are supose to be verticaly.
+        /// Then we shorten all horizontal or vertical end pieces to make incline piecies fit better 
+        /// </summary>
         private void TurnHorizontalPieces(Dictionary<Vector2Int, Transform> fence)
         {
             var horizontalTurn = new Vector3(0, 90, 0);
@@ -70,6 +74,7 @@ namespace PiggyFence.Fence
                 var downRightCell = new Vector2Int(fenceP.x + 1, fenceP.y + 1);
                 var upRightCell = new Vector2Int(fenceP.x - 1, fenceP.y + 1);
 
+                // || --> --
                 if (fence.ContainsKey(rightCell))
                 {
                     fence[rightCell].eulerAngles = horizontalTurn;
@@ -77,14 +82,14 @@ namespace PiggyFence.Fence
                     continue;
                 }
 
+                // if piece have neighbor on the righ up or right down --> shorten both pieces 
                 if (fence.ContainsKey(downRightCell))
                 {
                     fence[downRightCell].localScale = shorterFenceScale;
                     fence[fenceP].localScale = shorterFenceScale;
                     continue;
                 }
-
-                if (fence.ContainsKey(upRightCell))
+                else if (fence.ContainsKey(upRightCell))
                 {
                     fence[fenceP].localScale = shorterFenceScale;
                     fence[upRightCell].localScale = shorterFenceScale;
@@ -93,6 +98,9 @@ namespace PiggyFence.Fence
             }
         }
 
+        /// <summary>
+        /// After shortening end pieces there are gabs between pieces. We must tighten that gap.
+        /// </summary>
         private void ConnectShortenedEnds(Dictionary<Vector2Int, Transform> fence)
         {
             foreach (var fenceP in fence.Keys)
@@ -102,52 +110,49 @@ namespace PiggyFence.Fence
                 var rightCell = new Vector2Int(fenceP.x, fenceP.y + 1);
                 var leftCell = new Vector2Int(fenceP.x, fenceP.y - 1);
 
+                // if your down neighbor is shortened
                 if (fence.ContainsKey(downCell) && fence[downCell].localScale.x == 0.5f)
                 {
-                    if (fence[fenceP].localScale.x == 1f)
-                        fence[downCell].localPosition = Vector3.right * -0.25f;
-                    else
-                    {
-                        fence[downCell].localPosition = Vector3.right * -0.25f;
+                    // if you are also shortened --> move to neighbor
+                    if (fence[fenceP].localScale.x == 0.5f)
                         fence[fenceP].localPosition = Vector3.right * 0.25f;
-                    }
+
+                    fence[downCell].localPosition = Vector3.right * -0.25f;  // move neighbor to you
                 }
 
+                // if your up neighbor is shortened
                 if (fence.ContainsKey(upCell) && fence[upCell].localScale.x == 0.5f)
                 {
-                    if (fence[fenceP].localScale.x == 1f)
-                        fence[upCell].localPosition = Vector3.right * 0.25f;
-                    else
-                    {
-                        fence[upCell].localPosition = Vector3.right * 0.25f;
+                    if (fence[fenceP].localScale.x == 0.5f)
                         fence[fenceP].localPosition = Vector3.right * -0.25f;
-                    }
+
+                    fence[upCell].localPosition = Vector3.right * 0.25f;
                 }
 
+                // if your right neighbor is shortened
                 if (fence.ContainsKey(rightCell) && fence[rightCell].localScale.x == 0.5f)
                 {
-                    if (fence[fenceP].localScale.x == 1f)
-                        fence[rightCell].localPosition = Vector3.forward * -0.25f;
-                    else
-                    {
-                        fence[rightCell].localPosition = Vector3.forward * -0.25f;
+                    if (fence[fenceP].localScale.x == 0.5f)
                         fence[fenceP].localPosition = Vector3.forward * 0.25f;
-                    }
+
+                    fence[rightCell].localPosition = Vector3.forward * -0.25f;
                 }
 
+                // if your left neighbor is shortened
                 if (fence.ContainsKey(leftCell) && fence[leftCell].localScale.x == 0.5f)
                 {
-                    if (fence[fenceP].localScale.x == 1f)
-                        fence[leftCell].localPosition = Vector3.forward * 0.25f;
-                    else
-                    {
-                        fence[leftCell].localPosition = Vector3.forward * 0.25f;
+                    if (fence[fenceP].localScale.x == 0.5f)
                         fence[fenceP].localPosition = Vector3.forward * -0.25f;
-                    }
+
+                    fence[leftCell].localPosition = Vector3.forward * 0.25f;
                 }
             }
         }
 
+        /// <summary>
+        /// We need to find and rotate all incline piecies + fit them to right size.
+        /// We are examinig righ and left neighbor of all pieceies to fit them correctlty.
+        /// </summary>
         private void RotateInclinedPieces(Dictionary<Vector2Int, Transform> fence)
         {
             foreach (var fenceP in fence.Keys)
@@ -157,12 +162,18 @@ namespace PiggyFence.Fence
                 var upLeftCell = new Vector2Int(fenceP.x - 1, fenceP.y - 1);
                 var upRightCell = new Vector2Int(fenceP.x - 1, fenceP.y + 1);
 
+                // -         -
+                //  -   -->   \
+                //   -         -
                 if (fence.ContainsKey(downRightCell) && fence.ContainsKey(upLeftCell))
                 {
                     fence[fenceP].eulerAngles = new Vector3(0, -45, 0);
                     fence[fenceP].localScale = new Vector3(2.5f, 1, 1f);
                     continue;
                 }
+                //   -         -
+                //  -   -->   /
+                // -         -
                 else if (fence.ContainsKey(downLeftCell) && fence.ContainsKey(upRightCell))
                 {
                     fence[fenceP].eulerAngles = new Vector3(0, 45, 0);
@@ -170,6 +181,8 @@ namespace PiggyFence.Fence
                     continue;
                 }
 
+                // - -        - -
+                //  -   -->    \
                 if (fence.ContainsKey(upRightCell) && fence.ContainsKey(upLeftCell))
                 {
                     fence[fenceP].eulerAngles = new Vector3(0, -45, 0);
@@ -177,6 +190,8 @@ namespace PiggyFence.Fence
                     fence[fenceP].localScale = new Vector3(1.25f, 1, 1f);
                     continue;
                 }
+                //  -          /
+                // - -   -->  - -
                 else if (fence.ContainsKey(downLeftCell) && fence.ContainsKey(downRightCell))
                 {
                     fence[fenceP].eulerAngles = new Vector3(0, 45, 0);
@@ -185,6 +200,9 @@ namespace PiggyFence.Fence
                     continue;
                 }
 
+                //   -        -
+                // -   -->   /
+                //   -        -
                 if (fence.ContainsKey(downRightCell) && fence.ContainsKey(upRightCell))
                 {
                     fence[fenceP].eulerAngles = new Vector3(0, 45, 0);
@@ -192,6 +210,9 @@ namespace PiggyFence.Fence
                     fence[fenceP].localScale = new Vector3(1.25f, 1, 1f);
                     continue;
                 }
+                // -         -
+                //  -   -->   \
+                // -         -
                 else if (fence.ContainsKey(downLeftCell) && fence.ContainsKey(upLeftCell))
                 {
                     fence[fenceP].eulerAngles = new Vector3(0, -45, 0);
@@ -202,6 +223,10 @@ namespace PiggyFence.Fence
             }
         }
 
+        /// <summary>
+        /// Lastly we need to take care of perpendicular connections.
+        /// Turn them incline + fit them to right size and position.
+        /// </summary>
         private void ConnectHardEdges(Dictionary<Vector2Int, Transform> fence)
         {
             foreach (var fenceP in fence.Keys)
@@ -209,6 +234,8 @@ namespace PiggyFence.Fence
                 var downRighCell = new Vector2Int(fenceP.x + 1, fenceP.y + 1);
                 var leftCell = new Vector2Int(fenceP.x, fenceP.y - 1);
 
+                // -         \
+                //  |  -->    \
                 if (fence.ContainsKey(downRighCell))
                 {
                     if (Mathf.Abs(fence[downRighCell].eulerAngles.y - fence[fenceP].eulerAngles.y) == 90f)
