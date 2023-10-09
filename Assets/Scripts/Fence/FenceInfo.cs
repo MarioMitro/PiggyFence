@@ -29,9 +29,11 @@ namespace PiggyFence.Fence
         public FenceStyle[] fenceMaterialsPalet;
         public List<Vector2Int> fenceCellCoordinates { get; set; }
 
+        public bool isDataLoaded { get; protected set; }
+
         private void Awake()
         {
-            fenceCellCoordinates = new List<Vector2Int>();
+            ResetData();
         }
 
         private void OnDestroy()
@@ -42,6 +44,18 @@ namespace PiggyFence.Fence
             fenceCellCoordinates = null;
 
             fenceMaterialsPalet = null;
+        }
+
+        public void ResetData()
+        {
+            fenceCellCoordinates = new List<Vector2Int>();
+            isDataLoaded = false;
+        }
+
+        public virtual void LoadData(List<Vector2Int> fenceData)
+        {
+            fenceCellCoordinates = fenceData;
+            isDataLoaded = true;
         }
 
         public bool IsCellInTheFence(Vector2Int gridCell)
@@ -211,8 +225,15 @@ namespace PiggyFence.Fence
                 //   -         -
                 if (fence.ContainsKey(downRightCell) && fence.ContainsKey(upLeftCell))
                 {
+                    if (fence[upLeftCell].localScale.x < 1.5f)
+                        fence[fenceP].localScale = new Vector3(2.5f, 1, 1f);
+                    else
+                    {
+                        fence[fenceP].localScale = new Vector3(1.5f, 1, 1f);
+                        fence[fenceP].localPosition = new Vector3(0.4f, 0, 0.4f);
+                    }
+
                     fence[fenceP].eulerAngles = new Vector3(0, -45, 0);
-                    fence[fenceP].localScale = new Vector3(2.5f, 1, 1f);
                     continue;
                 }
                 //   -         -
@@ -220,8 +241,15 @@ namespace PiggyFence.Fence
                 // -         -
                 else if (fence.ContainsKey(downLeftCell) && fence.ContainsKey(upRightCell))
                 {
+                    if (fence[upRightCell].localScale.x < 1.5f)
+                        fence[fenceP].localScale = new Vector3(2.5f, 1, 1f);
+                    else
+                    {
+                        fence[fenceP].localScale = new Vector3(1.5f, 1, 1f);
+                        fence[fenceP].localPosition = new Vector3(0.4f, 0, -0.4f);
+                    }
+
                     fence[fenceP].eulerAngles = new Vector3(0, 45, 0);
-                    fence[fenceP].localScale = new Vector3(2.5f, 1, 1f);
                     continue;
                 }
 
@@ -229,7 +257,7 @@ namespace PiggyFence.Fence
                 //  -   -->    \
                 if (fence.ContainsKey(upRightCell) && fence.ContainsKey(upLeftCell))
                 {
-                    fence[fenceP].eulerAngles = new Vector3(0, -45, 0);
+                    fence[fenceP].eulerAngles = new Vector3(0, 45, 0);
                     fence[fenceP].localPosition = new Vector3(-0.5f, 0, 0.5f);
                     fence[fenceP].localScale = new Vector3(1.25f, 1, 1f);
                     continue;
@@ -249,7 +277,7 @@ namespace PiggyFence.Fence
                 //   -        -
                 if (fence.ContainsKey(downRightCell) && fence.ContainsKey(upRightCell))
                 {
-                    fence[fenceP].eulerAngles = new Vector3(0, 45, 0);
+                    fence[fenceP].eulerAngles = new Vector3(0, -45, 0);
                     fence[fenceP].localPosition = new Vector3(0.5f, 0, 0.5f);
                     fence[fenceP].localScale = new Vector3(1.25f, 1, 1f);
                     continue;
@@ -259,8 +287,17 @@ namespace PiggyFence.Fence
                 // -         -
                 else if (fence.ContainsKey(downLeftCell) && fence.ContainsKey(upLeftCell))
                 {
-                    fence[fenceP].eulerAngles = new Vector3(0, -45, 0);
-                    fence[fenceP].localPosition = new Vector3(-0.5f, 0, -0.5f);
+                    if (fence[upLeftCell].eulerAngles.y <= 90)
+                    {
+                        fence[fenceP].eulerAngles = new Vector3(0, -45, 0);
+                        fence[fenceP].localPosition = new Vector3(-0.5f, 0, -0.5f);
+                    }
+                    else
+                    {
+                        fence[fenceP].eulerAngles = new Vector3(0, 45, 0);
+                        fence[fenceP].localPosition = new Vector3(0.5f, 0, -0.5f);
+                    }
+
                     fence[fenceP].localScale = new Vector3(1.25f, 1, 1f);
                     continue;
                 }

@@ -3,6 +3,7 @@ using UnityEngine;
 using PiggyFence.UI;
 using PiggyFence.Fence;
 
+using System.Collections;
 using System.Collections.Generic;
 
 namespace PiggyFence.Managers
@@ -36,14 +37,13 @@ namespace PiggyFence.Managers
         private void OnDestroy()
         {
             groundPrefab = null;
+            fenceInfo.ResetData();
 
             grid.Clear();
             grid = null;
 
             fence.Clear();
             fence = null;
-
-            fenceInfo = null;
         }
 
         public Vector3 GetMousePosition(Vector3 mousePosition)
@@ -75,7 +75,14 @@ namespace PiggyFence.Managers
 
         private void BuildFence()
         {
+            StartCoroutine(BuildFenceAsync());
+        }
+
+        private IEnumerator BuildFenceAsync()
+        {
             fence = new Dictionary<Vector2Int, Transform>();
+
+            yield return new WaitUntil(() => fenceInfo.isDataLoaded);
 
             foreach (var cell in fenceInfo.fenceCellCoordinates)
             {
